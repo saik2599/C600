@@ -1,3 +1,4 @@
+
 #include <Arduino.h>
 #include "io_c200.h"
 #include "config_c200.h"
@@ -312,28 +313,28 @@ void parameter_check(){
         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT426);
     }
 
-    //Stage control for PT442- Stage1 Tank PT
-    if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_IDLE_MIN)){
-      // When S1 Tank goes low start compressing gas from S1 into the interstage tank (No longer IDLE)
-      set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
-      // And IDLE S2 and stop taking gas from the interstage tank
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT442);
-      Serial.println(test_config_parameter(IDLE_STATE_S2_ALL,IDLE_STATE_PT442));
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
-      // When S1 Tank goes high - IDLE S1 and stop compressing gas into the interstage tank
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
-      // And start taking gas from the interstage tank into S2 (No longer IDLE)
-      set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
-    }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_RUN_MIN))){
-        // When S1 tank interstage pressure is in range run both S1 and S2
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
-    }
+    // //Stage control for PT442- Stage1 Tank PT
+    // if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_STOP_MIN)) 
+    //           || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){          
+    //   // This error will remain here until the red button is presssed by the operator to clear it
+    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_IDLE_MIN)){
+    //   // When S1 Tank goes low start compressing gas from S1 into the interstage tank (No longer IDLE)
+    //   set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+    //   // And IDLE S2 and stop taking gas from the interstage tank
+    //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT442);
+    //   Serial.println(test_config_parameter(IDLE_STATE_S2_ALL,IDLE_STATE_PT442));
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
+    //   // When S1 Tank goes high - IDLE S1 and stop compressing gas into the interstage tank
+    //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
+    //   // And start taking gas from the interstage tank into S2 (No longer IDLE)
+    //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)) 
+    //           && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_RUN_MIN))){
+    //     // When S1 tank interstage pressure is in range run both S1 and S2
+    //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+    //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+    // }
 
     // UNUSED PT -410
     //   //Stage control for PT410- Stage1 tank PT
@@ -350,26 +351,26 @@ void parameter_check(){
     //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT410);
     // }
 
-    //Stage control for PT457- Stage2 Tank PT
-    if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_IDLE_MIN)){
-      // When S2 tank is low, start compressing gas from S2 into the tank (No longer IDLE)
-      set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-      // And stop taking gas from the tank into S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT457);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
-      // When S2 tank is high stop compressing gas from S2 into the tank
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
-      // And start taking gas into S3 to take the pressure down (No longer IDLE)
-      set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
-    }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_RUN_MIN))){
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
-    }
+    // //Stage control for PT457- Stage2 Tank PT
+    // if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_STOP_MIN)) 
+    //           || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){          
+    //   // This error will remain here until the red button is presssed by the operator to clear it
+    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_IDLE_MIN)){
+    //   // When S2 tank is low, start compressing gas from S2 into the tank (No longer IDLE)
+    //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+    //   // And stop taking gas from the tank into S3
+    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT457);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
+    //   // When S2 tank is high stop compressing gas from S2 into the tank
+    //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
+    //   // And start taking gas into S3 to take the pressure down (No longer IDLE)
+    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX)) 
+    //           && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_RUN_MIN))){
+    //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+    // }
 
     // UNUSED PT -416
     //   //Stage control for PT416- Stage2 Tank PT
@@ -402,22 +403,22 @@ void parameter_check(){
         set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
     }
 
-     //Stage control for PT487- Stage3 PT
-    if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_IDLE_MIN)){
-      // When S3 discharge is low no longer IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
-      // When S3 discharge is too high IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
-    }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_RUN_MIN))){
-        // When S3 discharge is in range no longer IDLE
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
-    }
+    //  //Stage control for PT487- Stage3 PT
+    // if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_STOP_MIN)) 
+    //           || (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){          
+    //   // This error will remain here until the red button is presssed by the operator to clear it
+    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_IDLE_MIN)){
+    //   // When S3 discharge is low no longer IDLE S3
+    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
+    //   // When S3 discharge is too high IDLE S3
+    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
+    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX)) 
+    //           && (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_RUN_MIN))){
+    //     // When S3 discharge is in range no longer IDLE
+    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+    // }
 
     //Stage control for PT496- HFL Pump PT
     if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_STOP_MIN)) 
@@ -488,6 +489,133 @@ void parameter_check(){
         set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT576);
         set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT576);
     }
+
+
+    
+    // Fetch scaled PSI once for ratio math
+   const float pt426 = (float)get_config_parameter(CONFIG_PARAM_SUCTION_TANK);
+   const float pt442 = (float)get_config_parameter(CONFIG_PARAM_STAGE1_TANK);
+   const float pt457 = (float)get_config_parameter(CONFIG_PARAM_STAGE2_TANK);
+   const float pt487 = (float)get_config_parameter(CONFIG_PARAM_STAGE3_PT);
+   
+
+   // Ratio defaults (sites can override via config; fall back to defaults if unset/zero)
+    (r_442_min <= 0.0f) r_442_min = 4.0f;  // 1:4
+    (r_442_max <= 0.0f) r_442_max = 6.0f;  // 1:6
+    (r_457_tgt <= 0.0f) r_457_tgt = 2.5f;  // 1:2.5 nominal
+    (r_457_idle <= 0.0f) r_457_idle = 3.0f; // idle S2 at 1:3
+    (r_487_tgt <= 0.0f) r_487_tgt = 3.5f;  // 1:3.5 nominal
+    (r_487_idle <= 0.0f) r_487_idle = 4.0f; // idle ALL at 1:4
+    
+    // Optional: publish the dynamic setpoints to HMI for visibility
+   const float pt442_low  = pt426 * r_442_min;                   // 1:4 → S2 idle if below (with hysteresis)
+   const float pt442_high = pt426 * r_442_max;                   // 1:6 → S1 idle if above (with hysteresis)
+   set_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI,  pt442_low);
+   set_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, pt442_high);
+
+   // -----------------------------
+   // 3a) PT442 vs PT911 (LOW SIDE ratio gate: 1:4..1:6)
+   //    - < 1:4  → idle Stage 2
+   //    - > 1:6  → idle Stage 1
+   //    - within → Stage 2 allowed to run
+   //    Hysteresis: clear S2 idle above 1:4 * 1.05; clear S1 idle below 1:6 * 0.95
+   // -----------------------------
+   // S2 low-side protection (clear when back inside band with +5%)
+    if (pt442 < pt442_low) {
+     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT442);
+    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT442) && (pt442 >= (pt442_low * 1.05f))) {
+     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);  // "start compressing" once in band
+    }
+
+   // S1 high-side protection (clear when back inside band with -5%)
+    if (pt442 > pt442_high) {
+      set_config_parameter(IDLE_STATE_S1_ALL, TRUE,  IDLE_STATE_PT442);
+    } else if (test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT442) && (pt442 <= (pt442_high * 0.95f))) {
+     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+    }
+
+    //3b)
+    if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){
+      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT410);
+      Serial.println("ERROR PRESS - PT442");
+    } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
+     set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
+    } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)){
+     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+    }
+
+
+    // -----------------------------
+    // 4) PT457 vs PT442 (INTERSTAGE ratio)
+    //     nominal 1:2.5; if it reaches 1:3 → idle Stage 2
+    //     Hysteresis: clear at 2.9
+    // -----------------------------
+    const float pt457_idle_trip  = pt442 * r_457_idle;          // 3.0 × PT442
+    const float pt457_idle_clear = pt442 * (r_457_idle - 0.1f); // 2.9 × PT442
+
+    // Compute & publish PT457 target (2.5 × PT442) for HMI
+    const float pt457_target = pt442 * r_457_tgt;
+    set_config_parameter(CONFIG_PARAM_PT457_TARGET_PSI, pt457_target);
+
+    if (pt457 >= pt457_idle_trip) {
+     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT457);
+    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT457) && (pt457 <= pt457_idle_clear)) {
+     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+    }
+
+    // Existing site-specific MAX protections (no mins required) still apply as you configured:
+    if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){
+     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
+     Serial.println("ERROR PRESS - PT457");
+    } else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
+     set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
+    } else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX))){
+     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+    }
+
+    // // -----------------------------
+    // // 5) PT407 – HIGH LIMITS ONLY (extra ESTOP)
+    // // -----------------------------
+    // if ((get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) > get_config_parameter(CONFIG_PARAM_PT407_STOP_MAX))){
+    //  set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT407);
+    //  Serial.println("ERROR PRESS - PT407");
+    // } else if (get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) > get_config_parameter(CONFIG_PARAM_PT407_IDLE_MAX)){
+    //  set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT407);
+    // } else if ((get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) < get_config_parameter(CONFIG_PARAM_PT407_RUN_MAX))){
+    //  set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT407);
+    // }
+
+
+  
+    // -----------------------------
+    // 6) PT487 vs PT457 (TANK ratio)
+    //     nominal 1:3.5; if it reaches 1:4 → idle S2
+    //     Hysteresis: clear at 3.9
+    //     NOTE: Skip ratio idling for first 60s after S2 start (when PT487 > target).
+    // -----------------------------
+    const float pt487_idle_trip  = pt457 * r_487_idle;           // 4.0 × PT457
+    const float pt487_idle_clear = pt457 * (r_487_idle - 0.1f);  // 3.9 × PT457
+    const float pt487_target     = pt457 * r_487_tgt;            // 3.5 × PT457
+    set_config_parameter(CONFIG_PARAM_PT487_TARGET_PSI, pt487_target); // HMI visibility
+
+     // ---- Normal ratio hysteresis ----
+      if (pt487 >= pt487_idle_trip) {
+       set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT487);
+      } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT487) && (pt487 <= pt487_idle_clear)) {
+       set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+      }
+
+    // Site-specific MAX protections for PT487 remain as-is (ALWAYS ACTIVE):
+    if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){
+     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
+     Serial.println("ERROR PRESS - PT487");
+    } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
+     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT487);
+    } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX))){
+     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+    }
+
+
 
        //Stage control for TC3-TT432
     if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_STOP_MIN)) 
@@ -843,9 +971,7 @@ bool c600_stroking_current(bool stroke_a, bool stroke_b, int flow_max_a, int flo
 
   // ---- Linear temperature → CPM (decrease as temperature increases) ----
   int cpm_i;
-  if (temp <= get_config_param(*)
-  
-  T_SLOPE_START_C) {
+  if (temp <= T_SLOPE_START_C) {
     cpm_i = max_cpm;
   } else if (temp >= T_SLOPE_END_C) {
     cpm_i = min_cpm;

@@ -50,6 +50,7 @@ static FLOATUNION_t pt01, pt02, pt03, pt04,pt05, pt06, pt07, pt08,pt09, pt10, pt
 static FLOATUNION_t pulse1,pulse2,pulse3;
 static FLOATUNION_t flowcnt1a,flowcnt1b,flowcnt2a,flowcnt2b,flowcnt3a,flowcnt3b;
 static FLOATUNION_t intensifier_s1_actual_cpm, s1_min_cpm,s1_max_cpm,intensifier_s2_actual_cpm,s2_min_cpm,s2_max_cpm,intensifier_s3_actual_cpm,s3_min_cpm,s3_max_cpm;
+static FLOATUNION_t pt442_ratio_low_psi,pt442_ratio_high_psi,pt457_target_psi,pt487_target_psi;
 static FLOATUNION_t pt405_STOP_min, pt405_IDLE_min, pt405_RUN_min, pt405_RUN_max, pt405_IDLE_max, pt405_STOP_max;    // PT-405
 static FLOATUNION_t pt426_STOP_min, pt426_IDLE_min, pt426_RUN_min, pt426_RUN_max, pt426_IDLE_max, pt426_STOP_max;    // PT-426
 static FLOATUNION_t pt442_STOP_min, pt442_IDLE_min, pt442_RUN_min, pt442_RUN_max, pt442_IDLE_max, pt442_STOP_max;    // PT-442
@@ -286,6 +287,7 @@ void init_config()
 ////flowcnt3 not defined yet,??
   flowcnt1a.number = 3000,flowcnt1b.number = 3000,flowcnt2a.number = 3000,flowcnt2b.number = 3000,flowcnt3a.number = 3000,flowcnt3b.number = 3000;
   intensifier_s1_actual_cpm.number = 0, s1_min_cpm.number= 7, s1_max_cpm.number=12,intensifier_s2_actual_cpm.number = 0, s2_min_cpm.number= 7, s2_max_cpm.number=12,intensifier_s3_actual_cpm.number = 0, s3_min_cpm.number=5, s3_max_cpm.number=10;
+  pt442_ratio_low_psi.number = 0, pt442_ratio_high_psi.number = 0, pt457_target_psi.number = 0, pt487_target_psi.number = 0;
   eeprom_setup();  
 }
 
@@ -756,10 +758,17 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_S3_ACTUAL_CPM:
       return(intensifier_s3_actual_cpm.number); 
     case CONFIG_PARAM_S3_MIN_CPM:
-      //return(s3_min_cpm.number); 
-      return(135)
+      return(s3_min_cpm.number); 
     case CONFIG_PARAM_S3_MAX_CPM:
       return(s3_max_cpm.number); 
+    case CONFIG_PARAM_PT442_RATIO_LOW_PSI:      
+      return(pt442_ratio_low_psi.number);
+    case CONFIG_PARAM_PT442_RATIO_HIGH_PSI:      
+      return(pt442_ratio_high_psi.number);
+    case CONFIG_PARAM_PT457_TARGET_PSI:      
+      return(pt457_target_psi.number);
+    case CONFIG_PARAM_PT487_TARGET_PSI:      
+      return(pt487_target_psi.number);
     case ERROR_PARAM_ALL:
       return(error_bits.number);       
     case ERROR_PARAM2_ALL:
@@ -1668,7 +1677,19 @@ void set_config_parameter(int param, float param_value){
     case CONFIG_PARAM_S3_MAX_CPM:
       s3_max_cpm.number = param_value;
       eeprom_save();
-      break;  
+      break; 
+    case CONFIG_PARAM_PT442_RATIO_LOW_PSI:              
+      pt442_ratio_low_psi.number = param_value;
+      break;
+    case CONFIG_PARAM_PT442_RATIO_HIGH_PSI:              // PT-442
+      pt442_ratio_high_psi.number = param_value;
+      break;
+    case CONFIG_PARAM_PT457_TARGET_PSI:                // PT-457
+      pt457_target_psi.number = param_value;
+      break;
+    case CONFIG_PARAM_PT487_TARGET_PSI:              // PT-487
+      pt487_target_psi.number = param_value;
+      break; 
 
     default:
       break;
@@ -1832,7 +1853,35 @@ void set_config_parameter(int param, uint16_t param_value, int byte_n){
         s3_max_cpm.words[1] = param_value;
       }
       eeprom_save();
-      break;          
+      break;      
+    case CONFIG_PARAM_PT442_RATIO_LOW_PSI:
+      if (byte_n == MSB){
+        pt442_ratio_low_psi.words[0] = param_value;
+      }else{
+        pt442_ratio_low_psi.words[1] = param_value;
+      }
+      break;
+    case CONFIG_PARAM_PT442_RATIO_HIGH_PSI:
+      if (byte_n == MSB){
+        pt442_ratio_high_psi.words[0] = param_value;
+      }else{
+        pt442_ratio_high_psi.words[1] = param_value;
+      }
+      break;
+    case CONFIG_PARAM_PT457_TARGET_PSI:
+      if (byte_n == MSB){
+        pt457_target_psi.words[0] = param_value;
+      }else{
+        pt457_target_psi.words[1] = param_value;
+      }
+      break;
+    case CONFIG_PARAM_PT487_TARGET_PSI:
+      if (byte_n == MSB){
+        pt487_target_psi.words[0] = param_value;
+      }else{
+        pt487_target_psi.words[1] = param_value;
+      }
+      break;    
     default:
       break;
   }

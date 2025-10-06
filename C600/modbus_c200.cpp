@@ -802,6 +802,30 @@ uint16_t readRegResponse(int i){
     case MODBUS_REG_S3_MAX_CPM+1:  
       reg_response_val = get_config_parameter(CONFIG_PARAM_S3_MAX_CPM, MSB);
       break;
+    case MODBUS_REG_PT442_RATIO_LOW_PSI:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI, LSB);
+      break;
+    case MODBUS_REG_PT442_RATIO_LOW_PSI+1:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI, MSB);
+      break;
+    case MODBUS_REG_PT442_RATIO_HIGH_PSI:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, LSB);
+      break;
+    case MODBUS_REG_PT442_RATIO_HIGH_PSI+1:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, MSB);
+      break;
+    case MODBUS_REG_PT457_TARGET_PSI:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT457_TARGET_PSI, LSB);
+      break;
+    case MODBUS_REG_PT457_TARGET_PSI+1:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT457_TARGET_PSI, MSB);
+      break;
+    case MODBUS_REG_PT487_TARGET_PSI:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT487_TARGET_PSI, LSB);
+      break;
+    case MODBUS_REG_PT487_TARGET_PSI+1:
+      reg_response_val = get_config_parameter(CONFIG_PARAM_PT487_TARGET_PSI, MSB);
+      break;
     case MODBUS_REG_ERROR_PARAM:  
       reg_response_val = get_config_parameter(ERROR_PARAM_ALL,MSB);
       break;      

@@ -156,6 +156,13 @@
   #define CONFIG_PARAM_S3_MIN_CPM       2766
   #define CONFIG_PARAM_S3_MAX_CPM       2768
 
+
+  #define   CONFIG_PARAM_PT442_RATIO_LOW_PSI                    2790  //read only
+  #define   CONFIG_PARAM_PT442_RATIO_HIGH_PSI                   2792  //read only
+  #define   CONFIG_PARAM_PT457_TARGET_PSI                       2794    //read only
+  #define   CONFIG_PARAM_PT487_TARGET_PSI                       2796  //read only
+
+
   #define CONFIG_PARAM_COOLANT1_PT      21  //PT531
   #define CONFIG_PARAM_COOLANT2_PT      22  //PT576
   #define CONFIG_PARAM_SUCTION_PT        9  //PT405
