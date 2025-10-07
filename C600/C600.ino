@@ -387,21 +387,21 @@ void parameter_check(){
     //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT416);
     // }
 
-    //Stage control for PT468- Stage3 Tank PT
-    if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_IDLE_MIN)){
-      // When S3 Tank is low, run S3 (No longer IDLEO)
-      set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
-    }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
-      // When S3 Tank is high IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
-    }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_RUN_MIN))){
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
-    }
+    // //Stage control for PT468- Stage3 Tank PT
+    // if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_STOP_MIN)) 
+    //           || (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){          
+    //   // This error will remain here until the red button is presssed by the operator to clear it
+    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_IDLE_MIN)){
+    //   // When S3 Tank is low, run S3 (No longer IDLEO)
+    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
+    //   // When S3 Tank is high IDLE S3
+    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
+    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX)) 
+    //           && (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_RUN_MIN))){
+    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+    // }
 
     //  //Stage control for PT487- Stage3 PT
     // if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_STOP_MIN)) 
@@ -499,13 +499,8 @@ void parameter_check(){
    const float pt487 = (float)get_config_parameter(CONFIG_PARAM_STAGE3_PT);
    
 
-   // Ratio defaults (sites can override via config; fall back to defaults if unset/zero)
-    (r_442_min <= 0.0f) r_442_min = 4.0f;  // 1:4
-    (r_442_max <= 0.0f) r_442_max = 6.0f;  // 1:6
-    (r_457_tgt <= 0.0f) r_457_tgt = 2.5f;  // 1:2.5 nominal
-    (r_457_idle <= 0.0f) r_457_idle = 3.0f; // idle S2 at 1:3
-    (r_487_tgt <= 0.0f) r_487_tgt = 3.5f;  // 1:3.5 nominal
-    (r_487_idle <= 0.0f) r_487_idle = 4.0f; // idle ALL at 1:4
+   float r_442_min=4.0f, r_442_max=6.0f, r_457_tgt=2.5f, r_457_idle=3.0f, r_487_tgt=3.5f, r_487_idle=4.0f;
+
     
     // Optional: publish the dynamic setpoints to HMI for visibility
    const float pt442_low  = pt426 * r_442_min;                   // 1:4 → S2 idle if below (with hysteresis)
@@ -536,7 +531,7 @@ void parameter_check(){
 
     //3b)
     if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){
-      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT410);
+      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
       Serial.println("ERROR PRESS - PT442");
     } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
      set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
@@ -573,17 +568,17 @@ void parameter_check(){
      set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
     }
 
-    // // -----------------------------
-    // // 5) PT407 – HIGH LIMITS ONLY (extra ESTOP)
-    // // -----------------------------
-    // if ((get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) > get_config_parameter(CONFIG_PARAM_PT407_STOP_MAX))){
-    //  set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT407);
-    //  Serial.println("ERROR PRESS - PT407");
-    // } else if (get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) > get_config_parameter(CONFIG_PARAM_PT407_IDLE_MAX)){
-    //  set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT407);
-    // } else if ((get_config_parameter(CONFIG_PARAM_S3_DISCHARGE_PT407) < get_config_parameter(CONFIG_PARAM_PT407_RUN_MAX))){
-    //  set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT407);
-    // }
+    // -----------------------------
+    // 5) PT468 – HIGH LIMITS ONLY (extra ESTOP)
+    // -----------------------------
+    if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){
+     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
+     Serial.println("ERROR PRESS - PT468");
+    } else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
+     set_config_parameter(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
+    } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX))){
+     set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+    }
 
 
   
@@ -600,9 +595,9 @@ void parameter_check(){
 
      // ---- Normal ratio hysteresis ----
       if (pt487 >= pt487_idle_trip) {
-       set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT487);
-      } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT487) && (pt487 <= pt487_idle_clear)) {
-       set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+       set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
+      } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487) && (pt487 <= pt487_idle_clear)) {
+       set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
       }
 
     // Site-specific MAX protections for PT487 remain as-is (ALWAYS ACTIVE):
@@ -610,14 +605,14 @@ void parameter_check(){
      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
      Serial.println("ERROR PRESS - PT487");
     } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
-     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT487);
+     set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
     } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX))){
-     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+     set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
     }
 
 
 
-       //Stage control for TC3-TT432
+    //Stage control for TC3-TT432
     if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_STOP_MIN)) 
               || (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX))){          
       // This error will remain here until the red button is presssed by the operator to clear it
