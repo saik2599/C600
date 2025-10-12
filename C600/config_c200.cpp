@@ -50,7 +50,7 @@ static FLOATUNION_t pt01, pt02, pt03, pt04,pt05, pt06, pt07, pt08,pt09, pt10, pt
 static FLOATUNION_t pulse1,pulse2,pulse3;
 static FLOATUNION_t flowcnt1a,flowcnt1b,flowcnt2a,flowcnt2b,flowcnt3a,flowcnt3b;
 static FLOATUNION_t intensifier_s1_actual_cpm, s1_min_cpm,s1_max_cpm,intensifier_s2_actual_cpm,s2_min_cpm,s2_max_cpm,intensifier_s3_actual_cpm,s3_min_cpm,s3_max_cpm;
-static FLOATUNION_t pt442_ratio_low_psi,pt442_ratio_high_psi,pt457_target_psi,pt487_target_psi;
+static FLOATUNION_t pt442_ratio_low_psi,pt442_ratio_high_psi,pt457_ratio_low_psi, pt457_ratio_high_psi, pt487_ratio_low_psi, pt487_ratio_high_psi;
 static FLOATUNION_t pt405_STOP_min, pt405_IDLE_min, pt405_RUN_min, pt405_RUN_max, pt405_IDLE_max, pt405_STOP_max;    // PT-405
 static FLOATUNION_t pt426_STOP_min, pt426_IDLE_min, pt426_RUN_min, pt426_RUN_max, pt426_IDLE_max, pt426_STOP_max;    // PT-426
 static FLOATUNION_t pt442_STOP_min, pt442_IDLE_min, pt442_RUN_min, pt442_RUN_max, pt442_IDLE_max, pt442_STOP_max;    // PT-442
@@ -287,7 +287,7 @@ void init_config()
 ////flowcnt3 not defined yet,??
   flowcnt1a.number = 3000,flowcnt1b.number = 3000,flowcnt2a.number = 3000,flowcnt2b.number = 3000,flowcnt3a.number = 3000,flowcnt3b.number = 3000;
   intensifier_s1_actual_cpm.number = 0, s1_min_cpm.number= 7, s1_max_cpm.number=12,intensifier_s2_actual_cpm.number = 0, s2_min_cpm.number= 7, s2_max_cpm.number=12,intensifier_s3_actual_cpm.number = 0, s3_min_cpm.number=5, s3_max_cpm.number=10;
-  pt442_ratio_low_psi.number = 0, pt442_ratio_high_psi.number = 0, pt457_target_psi.number = 0, pt487_target_psi.number = 0;
+  pt442_ratio_low_psi.number = 0, pt442_ratio_high_psi.number = 0, pt457_ratio_low_psi.number = 0, pt457_ratio_high_psi.number = 0, pt487_ratio_low_psi.number = 0, pt487_ratio_high_psi.number = 0;
   eeprom_setup();  
 }
 
@@ -531,11 +531,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT432_RUN_MIN:
       return(tt432_RUN_min.number); 
     case CONFIG_PARAM_TT432_RUN_MAX:
-      return(tt432_RUN_max.number); 
+      return(50); 
     case CONFIG_PARAM_TT432_IDLE_MAX:
-      return(tt432_IDLE_max.number); 
+      return(5500); 
     case CONFIG_PARAM_TT432_STOP_MAX:
-      return(tt432_STOP_max.number); 
+      return(6000); 
 
        //TT-439
     case CONFIG_PARAM_TT439_STOP_MIN:
@@ -545,11 +545,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT439_RUN_MIN:
       return(tt439_RUN_min.number); 
     case CONFIG_PARAM_TT439_RUN_MAX:
-      return(tt439_RUN_max.number); 
+      return(50); 
     case CONFIG_PARAM_TT439_IDLE_MAX:
-      return(tt439_IDLE_max.number); 
+      return(5500); 
     case CONFIG_PARAM_TT439_STOP_MAX:
-      return(tt439_STOP_max.number);   
+      return(6000);   
 
     //TT-435
     case CONFIG_PARAM_TT435_STOP_MIN:
@@ -559,11 +559,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT435_RUN_MIN:
       return(tt435_RUN_min.number); 
     case CONFIG_PARAM_TT435_RUN_MAX:
-      return(tt435_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT435_IDLE_MAX:
-      return(tt435_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT435_STOP_MAX:
-      return(tt435_STOP_max.number);     
+      return(145);     
 
     //TT-436
     case CONFIG_PARAM_TT436_STOP_MIN:
@@ -573,11 +573,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT436_RUN_MIN:
       return(tt436_RUN_min.number); 
     case CONFIG_PARAM_TT436_RUN_MAX:
-      return(tt436_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT436_IDLE_MAX:
-      return(tt436_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT436_STOP_MAX:
-      return(tt436_STOP_max.number);     
+      return(145);     
 
     //TT-447
     case CONFIG_PARAM_TT447_STOP_MIN:
@@ -587,11 +587,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT447_RUN_MIN:
       return(tt447_RUN_min.number); 
     case CONFIG_PARAM_TT447_RUN_MAX:
-      return(tt447_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT447_IDLE_MAX:
-      return(tt447_IDLE_max.number); 
+      return(14000); 
     case CONFIG_PARAM_TT447_STOP_MAX:
-      return(tt447_STOP_max.number);     
+      return(14500);     
 
      //TT-454
     case CONFIG_PARAM_TT454_STOP_MIN:
@@ -601,11 +601,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT454_RUN_MIN:
       return(tt454_RUN_min.number); 
     case CONFIG_PARAM_TT454_RUN_MAX:
-      return(tt454_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT454_IDLE_MAX:
-      return(tt454_IDLE_max.number); 
+      return(14000); 
     case CONFIG_PARAM_TT454_STOP_MAX:
-      return(tt454_STOP_max.number);       
+      return(14500);       
 
     //TT-450
     case CONFIG_PARAM_TT450_STOP_MIN:
@@ -615,11 +615,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT450_RUN_MIN:
       return(tt450_RUN_min.number); 
     case CONFIG_PARAM_TT450_RUN_MAX:
-      return(tt450_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT450_IDLE_MAX:
-      return(tt450_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT450_STOP_MAX:
-      return(tt450_STOP_max.number);         
+      return(145);         
 
     //TT-451
     case CONFIG_PARAM_TT451_STOP_MIN:
@@ -629,11 +629,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT451_RUN_MIN:
       return(tt451_RUN_min.number); 
     case CONFIG_PARAM_TT451_RUN_MAX:
-      return(tt451_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT451_IDLE_MAX:
-      return(tt451_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT451_STOP_MAX:
-      return(tt451_STOP_max.number);     
+      return(145);     
 
     //TT-462
     case CONFIG_PARAM_TT462_STOP_MIN:
@@ -643,11 +643,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT462_RUN_MIN:
       return(tt462_RUN_min.number); 
     case CONFIG_PARAM_TT462_RUN_MAX:
-      return(tt462_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT462_IDLE_MAX:
-      return(tt462_IDLE_max.number); 
+      return(14000); 
     case CONFIG_PARAM_TT462_STOP_MAX:
-      return(tt462_STOP_max.number);       
+      return(14500);       
 
     //TT-474
     case CONFIG_PARAM_TT474_STOP_MIN:
@@ -657,11 +657,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT474_RUN_MIN:
       return(tt474_RUN_min.number); 
     case CONFIG_PARAM_TT474_RUN_MAX:
-      return(tt474_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT474_IDLE_MAX:
-      return(tt474_IDLE_max.number); 
+      return(14000); 
     case CONFIG_PARAM_TT474_STOP_MAX:
-      return(tt474_STOP_max.number);    
+      return(14500);    
 
     //TT-465
     case CONFIG_PARAM_TT465_STOP_MIN:
@@ -671,11 +671,11 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT465_RUN_MIN:
       return(tt465_RUN_min.number); 
     case CONFIG_PARAM_TT465_RUN_MAX:
-      return(tt465_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT465_IDLE_MAX:
-      return(tt465_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT465_STOP_MAX:
-      return(tt465_STOP_max.number);         
+      return(145);         
 
     //TT-471
     case CONFIG_PARAM_TT471_STOP_MIN:
@@ -685,39 +685,39 @@ float get_config_parameter(int param){
     case CONFIG_PARAM_TT471_RUN_MIN:
       return(tt471_RUN_min.number); 
     case CONFIG_PARAM_TT471_RUN_MAX:
-      return(tt471_RUN_max.number); 
+      return(135); 
     case CONFIG_PARAM_TT471_IDLE_MAX:
-      return(tt471_IDLE_max.number); 
+      return(140); 
     case CONFIG_PARAM_TT471_STOP_MAX:
-      return(tt471_STOP_max.number);           
+      return(145);           
 
     //TT-532
     case CONFIG_PARAM_TT532_STOP_MIN:
-      return(tt532_STOP_min.number); 
+      return(-5); 
     case CONFIG_PARAM_TT532_IDLE_MIN:
-      return(tt532_IDLE_min.number); 
+      return(0); 
     case CONFIG_PARAM_TT532_RUN_MIN:
-      return(tt532_RUN_min.number); 
+      return(5); 
     case CONFIG_PARAM_TT532_RUN_MAX:
-      return(tt532_RUN_max.number); 
+      return(55); 
     case CONFIG_PARAM_TT532_IDLE_MAX:
-      return(tt532_IDLE_max.number); 
+      return(6000); 
     case CONFIG_PARAM_TT532_STOP_MAX:
-      return(tt532_STOP_max.number);        
+      return(6500);        
 
      //TT-557
     case CONFIG_PARAM_TT557_STOP_MIN:
-      return(tt557_STOP_min.number); 
+      return(-5); 
     case CONFIG_PARAM_TT557_IDLE_MIN:
-      return(tt557_IDLE_min.number); 
+      return(0); 
     case CONFIG_PARAM_TT557_RUN_MIN:
-      return(tt557_RUN_min.number); 
+      return(5); 
     case CONFIG_PARAM_TT557_RUN_MAX:
-      return(tt557_RUN_max.number); 
+      return(55); 
     case CONFIG_PARAM_TT557_IDLE_MAX:
-      return(tt557_IDLE_max.number); 
+      return(6000); 
     case CONFIG_PARAM_TT557_STOP_MAX:
-      return(tt557_STOP_max.number);               
+      return(6500);               
 
     case IDLE_STATE_S1_ALL:
       return(idle_s1_bits.number); 
@@ -765,10 +765,14 @@ float get_config_parameter(int param){
       return(pt442_ratio_low_psi.number);
     case CONFIG_PARAM_PT442_RATIO_HIGH_PSI:      
       return(pt442_ratio_high_psi.number);
-    case CONFIG_PARAM_PT457_TARGET_PSI:      
-      return(pt457_target_psi.number);
-    case CONFIG_PARAM_PT487_TARGET_PSI:      
-      return(pt487_target_psi.number);
+    case CONFIG_PARAM_PT457_RATIO_LOW_PSI:      
+      return(pt457_ratio_low_psi.number);
+    case CONFIG_PARAM_PT457_RATIO_HIGH_PSI:      
+      return(pt457_ratio_high_psi.number);
+    case CONFIG_PARAM_PT487_RATIO_LOW_PSI:      
+      return(pt487_ratio_low_psi.number);
+    case CONFIG_PARAM_PT487_RATIO_HIGH_PSI:      
+      return(pt487_ratio_high_psi.number);
     case ERROR_PARAM_ALL:
       return(error_bits.number);       
     case ERROR_PARAM2_ALL:
@@ -1678,17 +1682,23 @@ void set_config_parameter(int param, float param_value){
       s3_max_cpm.number = param_value;
       eeprom_save();
       break; 
-    case CONFIG_PARAM_PT442_RATIO_LOW_PSI:              
+    case CONFIG_PARAM_PT442_RATIO_LOW_PSI:              // PT-442
       pt442_ratio_low_psi.number = param_value;
       break;
     case CONFIG_PARAM_PT442_RATIO_HIGH_PSI:              // PT-442
       pt442_ratio_high_psi.number = param_value;
       break;
-    case CONFIG_PARAM_PT457_TARGET_PSI:                // PT-457
-      pt457_target_psi.number = param_value;
+    case CONFIG_PARAM_PT457_RATIO_LOW_PSI:                // PT-457
+      pt457_ratio_low_psi.number = param_value;
       break;
-    case CONFIG_PARAM_PT487_TARGET_PSI:              // PT-487
-      pt487_target_psi.number = param_value;
+    case CONFIG_PARAM_PT457_RATIO_HIGH_PSI:                // PT-457
+      pt457_ratio_high_psi.number = param_value;
+      break;
+    case CONFIG_PARAM_PT487_RATIO_LOW_PSI:              // PT-487
+      pt487_ratio_low_psi.number = param_value;
+      break; 
+    case CONFIG_PARAM_PT487_RATIO_HIGH_PSI:              // PT-487
+      pt487_ratio_high_psi.number = param_value;
       break; 
 
     default:
@@ -1868,18 +1878,32 @@ void set_config_parameter(int param, uint16_t param_value, int byte_n){
         pt442_ratio_high_psi.words[1] = param_value;
       }
       break;
-    case CONFIG_PARAM_PT457_TARGET_PSI:
+    case CONFIG_PARAM_PT457_RATIO_LOW_PSI:
       if (byte_n == MSB){
-        pt457_target_psi.words[0] = param_value;
+        pt457_ratio_low_psi.words[0] = param_value;
       }else{
-        pt457_target_psi.words[1] = param_value;
+        pt457_ratio_low_psi.words[1] = param_value;
       }
       break;
-    case CONFIG_PARAM_PT487_TARGET_PSI:
+    case CONFIG_PARAM_PT457_RATIO_HIGH_PSI:
       if (byte_n == MSB){
-        pt487_target_psi.words[0] = param_value;
+        pt457_ratio_high_psi.words[0] = param_value;
       }else{
-        pt487_target_psi.words[1] = param_value;
+        pt457_ratio_high_psi.words[1] = param_value;
+      }
+      break;
+    case CONFIG_PARAM_PT487_RATIO_LOW_PSI:
+      if (byte_n == MSB){
+        pt487_ratio_low_psi.words[0] = param_value;
+      }else{
+        pt487_ratio_low_psi.words[1] = param_value;
+      }
+      break;   
+    case CONFIG_PARAM_PT487_RATIO_HIGH_PSI:
+      if (byte_n == MSB){
+        pt487_ratio_high_psi.words[0] = param_value;
+      }else{
+        pt487_ratio_high_psi.words[1] = param_value;
       }
       break;    
     default:

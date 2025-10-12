@@ -159,8 +159,10 @@
 
   #define   CONFIG_PARAM_PT442_RATIO_LOW_PSI                    2790  //read only
   #define   CONFIG_PARAM_PT442_RATIO_HIGH_PSI                   2792  //read only
-  #define   CONFIG_PARAM_PT457_TARGET_PSI                       2794    //read only
-  #define   CONFIG_PARAM_PT487_TARGET_PSI                       2796  //read only
+  #define   CONFIG_PARAM_PT457_RATIO_LOW_PSI                    2794  //read only
+  #define   CONFIG_PARAM_PT457_RATIO_HIGH_PSI                   2796  //read only
+  #define   CONFIG_PARAM_PT487_RATIO_LOW_PSI                    2798  //read only
+  #define   CONFIG_PARAM_PT487_RATIO_HIGH_PSI                   2800  //read only
 
 
   #define CONFIG_PARAM_COOLANT1_PT      21  //PT531

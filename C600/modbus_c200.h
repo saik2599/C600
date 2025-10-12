@@ -249,10 +249,12 @@
   #define MODBUS_REG_S3_MIN_CPM       2766
   #define MODBUS_REG_S3_MAX_CPM       2768
 
-  #define   MODBUS_REG_PT442_RATIO_LOW_PSI                    2790  //read only
-  #define   MODBUS_REG_PT442_RATIO_HIGH_PSI                   2792  //read only
-  #define   MODBUS_REG_PT457_TARGET_PSI                       2794    //read only
-  #define   MODBUS_REG_PT487_TARGET_PSI                       2796  //read only
+  #define   MODBUS_REG_PT442_RATIO_LOW_PSI                    2790    //read only
+  #define   MODBUS_REG_PT442_RATIO_HIGH_PSI                   2792    //read only
+  #define   MODBUS_REG_PT457_RATIO_LOW_PSI                    2794    //read only
+  #define   MODBUS_REG_PT457_RATIO_HIGH_PSI                   2796    //read only
+  #define   MODBUS_REG_PT487_RATIO_LOW_PSI                    2798    //read only
+  #define   MODBUS_REG_PT487_RATIO_HIGH_PSI                   2800    //read only
 
   #define   MODBUS_REG_PV1_CL           81     //Analog output 1 0-10VDC Proportional valve 1 TB57.1 (PCB7.10 and later ONLY)
   #define   MODBUS_REG_PV2_CL           83     //Analog output 2 0-10VDC Proportional valve 2 TB57.3 (PCB7.10 and later ONLY)

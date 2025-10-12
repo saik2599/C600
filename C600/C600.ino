@@ -284,585 +284,1219 @@ if (test_config_parameter(CONFIG_PARAM_OP_STATE, CONFIG_PARAM_MANUAL_BIT)) {
   }  
 }
 
-void parameter_check(){
-  //Stage control for PT405- Suction PT
-    // if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT405);
-    // }else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_IDLE_MIN)){
-    //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
-    // }else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_IDLE_MAX)){
-    //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
-    // }else if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_RUN_MIN))){
-    //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT405);
-    // }
+// void parameter_check(){
+//   //Stage control for PT405- Suction PT
+//     if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT405);
+//     }else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_IDLE_MIN)){
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
+//     }else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_IDLE_MAX)){
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
+//     }else if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_RUN_MIN))){
+//         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT405);
+//     }
     
-    //Stage control for PT426- Suction TANK PT
-    if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT426);
-    }else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_IDLE_MIN)){
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
-    }else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_IDLE_MAX)){
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
-    }else if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_RUN_MIN))){
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT426);
-    }
+//     //Stage control for PT426- Suction TANK PT
+//     if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT426);
+//     }else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_IDLE_MIN)){
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
+//     }else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_IDLE_MAX)){
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
+//     }else if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_RUN_MIN))){
+//         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT426);
+//     }
 
-    // //Stage control for PT442- Stage1 Tank PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_IDLE_MIN)){
-    //   // When S1 Tank goes low start compressing gas from S1 into the interstage tank (No longer IDLE)
-    //   set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
-    //   // And IDLE S2 and stop taking gas from the interstage tank
-    //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT442);
-    //   Serial.println(test_config_parameter(IDLE_STATE_S2_ALL,IDLE_STATE_PT442));
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
-    //   // When S1 Tank goes high - IDLE S1 and stop compressing gas into the interstage tank
-    //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
-    //   // And start taking gas from the interstage tank into S2 (No longer IDLE)
-    //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_RUN_MIN))){
-    //     // When S1 tank interstage pressure is in range run both S1 and S2
-    //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
-    //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
-    // }
+//     // //Stage control for PT442- Stage1 Tank PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_IDLE_MIN)){
+//     //   // When S1 Tank goes low start compressing gas from S1 into the interstage tank (No longer IDLE)
+//     //   set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+//     //   // And IDLE S2 and stop taking gas from the interstage tank
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT442);
+//     //   Serial.println(test_config_parameter(IDLE_STATE_S2_ALL,IDLE_STATE_PT442));
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
+//     //   // When S1 Tank goes high - IDLE S1 and stop compressing gas into the interstage tank
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
+//     //   // And start taking gas from the interstage tank into S2 (No longer IDLE)
+//     //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_RUN_MIN))){
+//     //     // When S1 tank interstage pressure is in range run both S1 and S2
+//     //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+//     // }
 
-    // UNUSED PT -410
-    //   //Stage control for PT410- Stage1 tank PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT410);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_IDLE_MIN)){
-    //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT410);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_IDLE_MAX)){
-    //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT410);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_RUN_MIN))){
-    //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT410);
-    // }
+//     // UNUSED PT -410
+//     //   //Stage control for PT410- Stage1 tank PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT410);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_IDLE_MIN)){
+//     //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT410);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_IDLE_MAX)){
+//     //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT410);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT410_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT410_RUN_MIN))){
+//     //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT410);
+//     // }
 
-    // //Stage control for PT457- Stage2 Tank PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_IDLE_MIN)){
-    //   // When S2 tank is low, start compressing gas from S2 into the tank (No longer IDLE)
-    //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-    //   // And stop taking gas from the tank into S3
-    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT457);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
-    //   // When S2 tank is high stop compressing gas from S2 into the tank
-    //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
-    //   // And start taking gas into S3 to take the pressure down (No longer IDLE)
-    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_RUN_MIN))){
-    //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
-    // }
+//     // //Stage control for PT457- Stage2 Tank PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_IDLE_MIN)){
+//     //   // When S2 tank is low, start compressing gas from S2 into the tank (No longer IDLE)
+//     //   set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+//     //   // And stop taking gas from the tank into S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT457);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
+//     //   // When S2 tank is high stop compressing gas from S2 into the tank
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
+//     //   // And start taking gas into S3 to take the pressure down (No longer IDLE)
+//     //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_RUN_MIN))){
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+//     // }
 
-    // UNUSED PT -416
-    //   //Stage control for PT416- Stage2 Tank PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT416);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_IDLE_MIN)){
-    //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT416);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_IDLE_MAX)){
-    //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT416);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_RUN_MIN))){
-    //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT416);
-    // }
+//     // UNUSED PT -416
+//     //   //Stage control for PT416- Stage2 Tank PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT416);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_IDLE_MIN)){
+//     //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT416);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_IDLE_MAX)){
+//     //   set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT416);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT416_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT416_RUN_MIN))){
+//     //     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT416);
+//     // }
 
-    // //Stage control for PT468- Stage3 Tank PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_IDLE_MIN)){
-    //   // When S3 Tank is low, run S3 (No longer IDLEO)
-    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
-    //   // When S3 Tank is high IDLE S3
-    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_RUN_MIN))){
-    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
-    // }
+//     // //Stage control for PT468- Stage3 Tank PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_IDLE_MIN)){
+//     //   // When S3 Tank is low, run S3 (No longer IDLEO)
+//     //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
+//     //   // When S3 Tank is high IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_RUN_MIN))){
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+//     // }
 
-    //  //Stage control for PT487- Stage3 PT
-    // if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_STOP_MIN)) 
-    //           || (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){          
-    //   // This error will remain here until the red button is presssed by the operator to clear it
-    //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_IDLE_MIN)){
-    //   // When S3 discharge is low no longer IDLE S3
-    //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
-    // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
-    //   // When S3 discharge is too high IDLE S3
-    //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
-    // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX)) 
-    //           && (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_RUN_MIN))){
-    //     // When S3 discharge is in range no longer IDLE
-    //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
-    // }
+//     //  //Stage control for PT487- Stage3 PT
+//     // if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_IDLE_MIN)){
+//     //   // When S3 discharge is low no longer IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+//     // }else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
+//     //   // When S3 discharge is too high IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_RUN_MIN))){
+//     //     // When S3 discharge is in range no longer IDLE
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+//     // }
 
-    //Stage control for PT496- HFL Pump PT
-    if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT496);
-    }else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_IDLE_MIN)){
-      // When the HFL PT is out of range - IDLE all 3 stages 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
-    }else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_IDLE_MAX)){
-      // When the HFL PT is out of range - IDLE all 3 stages 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
-    }else if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_RUN_MIN))){
-      // When the HFL PT is in range all intensifiers can run (No longer IDLE)
-      set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT496);
-      set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT496);
-    }
+//     //Stage control for PT496- HFL Pump PT
+//     if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT496);
+//     }else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_IDLE_MIN)){
+//       // When the HFL PT is out of range - IDLE all 3 stages 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
+//     }else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_IDLE_MAX)){
+//       // When the HFL PT is out of range - IDLE all 3 stages 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
+//     }else if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_RUN_MIN))){
+//       // When the HFL PT is in range all intensifiers can run (No longer IDLE)
+//       set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT496);
+//       set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT496);
+//     }
 
 
-    //Stage control for PT531- Coolant1 PT
-    if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT531);
-    }else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_IDLE_MIN)){
-      // When the coolant PT is out of range, IDLE all 3 intensifiers 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
-    }else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_IDLE_MAX)){
-      // When the coolant PT is out of range, IDLE all 3 intensifiers 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
-    }else if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_RUN_MIN))){
-      // When the coolant PT is out of range, IDLE all 3 intensifiers 
-      set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT531);
-      set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT531);
-    }
+//     //Stage control for PT531- Coolant1 PT
+//     if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT531);
+//     }else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_IDLE_MIN)){
+//       // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
+//     }else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_IDLE_MAX)){
+//       // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
+//     }else if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_RUN_MIN))){
+//       // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//       set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT531);
+//       set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT531);
+//     }
 
-    //Stage control for PT576- Coolant2 PT
-    if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT576);
-    }else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_IDLE_MIN)){
-      // When the coolant PT is out of range, IDLE all 3 intensifiers 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
-    }else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_IDLE_MAX)){
-      // When the coolant PT is out of range, IDLE all 3 intensifiers 
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
-    }else if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_RUN_MIN))){
-        // When the coolant PT is out of range, IDLE all 3 intensifiers 
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT576);
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT576);
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT576);
-    }
+//     //Stage control for PT576- Coolant2 PT
+//     if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT576);
+//     }else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_IDLE_MIN)){
+//       // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
+//     }else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_IDLE_MAX)){
+//       // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
+//     }else if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_RUN_MIN))){
+//         // When the coolant PT is out of range, IDLE all 3 intensifiers 
+//         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT576);
+//         set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT576);
+//         set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT576);
+//     }
 
 
     
-    // Fetch scaled PSI once for ratio math
-   const float pt426 = (float)get_config_parameter(CONFIG_PARAM_SUCTION_TANK);
-   const float pt442 = (float)get_config_parameter(CONFIG_PARAM_STAGE1_TANK);
-   const float pt457 = (float)get_config_parameter(CONFIG_PARAM_STAGE2_TANK);
-   const float pt487 = (float)get_config_parameter(CONFIG_PARAM_STAGE3_PT);
+//     // Fetch scaled PSI once for ratio math
+//     const float pt426 = (float)get_config_parameter(CONFIG_PARAM_SUCTION_TANK);   // PT426
+//     const float pt442 = (float)get_config_parameter(CONFIG_PARAM_STAGE1_TANK);    // PT442
+//     const float pt457 = (float)get_config_parameter(CONFIG_PARAM_STAGE2_TANK);    // PT457
+//     const float pt487 = (float)get_config_parameter(CONFIG_PARAM_STAGE3_PT);      // PT487
+
+//    // Common ratio constants (band: 1:2.75..1:3.25, 5% hysteresis)
+//    const float R_MIN  = 2.75f;
+//    const float R_MAX  = 3.25f;
+//    const float HYST_L = 0.05f;   // clear low-idle when back +5%
+//    const float HYST_H = 0.05f;   // clear high-idle when back -5%
+
+//    // ============================================================================
+//    // 3) PT426 → PT442 (Stage 1 discharge ratio gate)  [UNCHANGED PATTERN]
+//    //     - < 2.75× : Intensifier 2 IDLE
+//    //     - within  : Allow Intensifier 2
+//    //     - > 3.25× : Intensifier 1 IDLE
+//    // ============================================================================
+//     {
+//      const float pt442_low  = pt426 * R_MIN;
+//      const float pt442_high = pt426 * R_MAX;
+//      set_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI,  pt442_low);
+//      set_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, pt442_high);
+
+//       // S2 low-side protection (idle S2 if below; clear once back above low*1.05)
+//       if (pt442 < pt442_low) {
+//       set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT442);
+//        } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT442) && (pt442 >= (pt442_low * HYST_L))) {
+//        set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+//       }
+
+//       // S1 high-side protection (idle S1 if above; clear once back below high*0.95)
+//       if (pt442 > pt442_high) {
+//        set_config_parameter(IDLE_STATE_S1_ALL, TRUE,  IDLE_STATE_PT442);
+//       } else if (test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT442) && (pt442 <= (pt442_high * HYST_H))) {
+//        set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+//       }
+//     }
+
+//     // Site-specific MAX protections for PT442 (unchanged)
+//     if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){
+//      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
+//      Serial.println("ERROR PRESS - PT442");
+//     } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
+//      set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
+//     } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)){
+//      set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+//     }
+
+
+
+//     // ============================================================================
+//     // 4) PT442 → PT457 (Interstage ratio gate; SAME LOW/HIGH PATTERN)
+//     //     - < 2.75× : Intensifier 3 IDLE
+//     //     - within  : Allow Intensifier 3
+//     //     - > 3.25× : Intensifier 2 IDLE
+//     // ============================================================================
+//     {
+//      const float pt457_low  = pt442 * R_MIN;
+//      const float pt457_high = pt442 * R_MAX;
+//      set_config_parameter(CONFIG_PARAM_PT457_RATIO_LOW_PSI,  pt457_low);
+//      set_config_parameter(CONFIG_PARAM_PT457_RATIO_HIGH_PSI, pt457_high);
+
+//       // S3 low-side protection (idle S3 if below; clear once back above low*1.05)
+//       if (pt457 < pt457_low) {
+//        set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT457);
+//       } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT457) && (pt457 >= (pt457_low * HYST_L))) {
+//        set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+//       }
+
+//       // S2 high-side protection (idle S2 if above; clear once back below high*0.95)
+//       if (pt457 > pt457_high) {
+//        set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT457);
+//       } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT457) && (pt457 <= (pt457_high * HYST_H))) {
+//        set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+//       }
+//     }
+
+//     // Existing site-specific MAX protections for PT457 (unchanged)
+//     if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){
+//      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
+//      Serial.println("ERROR PRESS - PT457");
+//     } else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
+//      set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
+//     } else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX))){
+//      set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+//     }
+
+//     // ============================================================================
+//     // 5) PT468 – HIGH LIMITS ONLY (extra ESTOP)  [unchanged]
+//     // ============================================================================
+//     if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){
+//      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
+//      Serial.println("ERROR PRESS - PT468");
+//     } else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
+//      set_config_parameter(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
+//     } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX))){
+//      set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
+//     }
+
+//    // ============================================================================
+//    // 6) PT457 → PT487 (Tank ratio gate; SAME LOW/HIGH PATTERN)
+//    //     - < 2.75× : Intensifier 3 IDLE (not enough tank build)
+//    //     - within  : Normal (keep compressing)
+//    //     - ≥ 3.25× : ENTIRE COMPRESSOR IDLE (idle all stages here)
+//    // ============================================================================
+//     {
+//      const float pt487_low  = pt457 * R_MIN;
+//      const float pt487_high = pt457 * R_MAX;
+//      set_config_parameter(CONFIG_PARAM_PT487_RATIO_LOW_PSI,  pt487_low);
+//      set_config_parameter(CONFIG_PARAM_PT487_RATIO_HIGH_PSI, pt487_high);
+
+//      // Low-side: idle Stage 3; clear when back above low*1.05
+//       if (pt487 < pt487_low) {
+//        set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
+//       } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487) && (pt487 >= (pt487_low * HYST_L))) {
+//        set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+//       }
+
+//       // High-side: compressor-wide idle. If you have a global idle bit, set it here.
+//       if (pt487 >= pt487_high) {
+//         set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT487);
+//         set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT487);
+//         set_config_parameter(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
+//       } else {
+//        // Clear high-side idles once back below high*0.95
+//        const bool s1_hi = test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT487);
+//        const bool s2_hi = test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT487);
+//        const bool s3_hi = test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487);
+//         if ((s1_hi || s2_hi || s3_hi) && (pt487 <= (pt487_high * HYST_H))) {
+//          set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT487);
+//          set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+//          set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+//         }
+//       }
+//     }
    
 
-   float r_442_min=4.0f, r_442_max=6.0f, r_457_tgt=2.5f, r_457_idle=3.0f, r_487_tgt=3.5f, r_487_idle=4.0f;
+//     // Site-specific MAX protections for PT487 remain as-is (ALWAYS ACTIVE)
+//     if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){
+//      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
+//      Serial.println("ERROR PRESS - PT487");
+//     } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
+//      set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
+//     } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX))){
+//      set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+//     }
 
-    
-    // Optional: publish the dynamic setpoints to HMI for visibility
-   const float pt442_low  = pt426 * r_442_min;                   // 1:4 → S2 idle if below (with hysteresis)
-   const float pt442_high = pt426 * r_442_max;                   // 1:6 → S1 idle if above (with hysteresis)
-   set_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI,  pt442_low);
-   set_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, pt442_high);
 
-   // -----------------------------
-   // 3a) PT442 vs PT911 (LOW SIDE ratio gate: 1:4..1:6)
-   //    - < 1:4  → idle Stage 2
-   //    - > 1:6  → idle Stage 1
-   //    - within → Stage 2 allowed to run
-   //    Hysteresis: clear S2 idle above 1:4 * 1.05; clear S1 idle below 1:6 * 0.95
-   // -----------------------------
-   // S2 low-side protection (clear when back inside band with +5%)
+
+//     // //Stage control for TC3-TT432
+//     // if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT432);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_IDLE_MIN)){
+//     //   // When S1 suction-A is low, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_IDLE_MAX)){
+//     //   // When S1 suction-A is high, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_RUN_MIN))){
+//     //     // When S1 suction-A is in range no longer need to IDLE S1                
+//     //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT432);
+//     // }
+
+//     //    //Stage control for TC4-TT439
+//     // if ((get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT439);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_IDLE_MIN)){
+//     //   // When S1 suction-B is low, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_IDLE_MAX)){
+//     //   // When S1 suction-B is low, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_RUN_MIN))){
+//     //     // When S1 suction-B is in range no longer need to IDLE S1       
+//     //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT439);
+//     // }
+
+//     // //Stage control for TC5-TT435
+//     // if ((get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT435);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_IDLE_MIN)){
+//     //   // When S1 discharge-A is low, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_IDLE_MAX)){
+//     //   // When S1 discharge-A is high, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_RUN_MIN))){
+//     //     // When S1 discharge-A is in range RUN (No longer need to IDLE) S1
+//     //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT435);
+//     // }
+
+//     // //Stage control for TC6-TT436
+//     // if ((get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT436);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_IDLE_MIN)){
+//     //   // When S1 discharge-B is low, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_IDLE_MAX)){
+//     //   // When S1 discharge-B is high, IDLE S1
+//     //   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_RUN_MIN))){
+//     //     // When S1 discharge-B is in range RUN (No longer need to IDLE) S1
+//     //     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT436);
+//     // }
+
+//     // //Stage control for TC7-TT447
+//     // if ((get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT447);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_IDLE_MIN)){
+//     //   // When S2 suction-A is low, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_IDLE_MAX)){
+//     //   // When S2 suction-A is high, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_RUN_MIN))){
+//     //     // When S2 suction-A is in range RUN (No longer need to IDLE) S2
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT447);
+//     // }
+
+//     // //Stage control for TC8-TT454
+//     // if ((get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT454);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_IDLE_MIN)){
+//     //   // When S2 suction-B is low, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_IDLE_MAX)){
+//     //   // When S2 suction-B is high, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_RUN_MIN))){
+//     //     // When S2 suction-B is in range RUN (No longer need to IDLE) S2
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT454);
+//     // }
+
+//     // //Stage control for TC9-TT450
+//     // if ((get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT450);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_IDLE_MIN)){
+//     //   // When S2 discharge-A is low, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_IDLE_MAX)){
+//     //   // When S2 discharge-A is high, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_RUN_MIN))){
+//     //     // When S2 discharge-A is in range RUN (No longer need to IDLE) S2
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT450);
+//     // }
+
+//     // //Stage control for TC10-TT451
+//     // if ((get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT451);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_IDLE_MIN)){
+//     //   // When S2 discharge-B is low, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_IDLE_MAX)){
+//     //   // When S2 discharge-B is high, IDLE S2
+//     //   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_RUN_MIN))){
+//     //     // When S2 discharge-B is in range RUN (No longer need to IDLE) S2
+//     //     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT451);
+//     // }
+
+//     // //Stage control for TC11-TT462
+//     // if ((get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT462);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_IDLE_MIN)){
+//     //   // When S3 suction-A is low, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_IDLE_MAX)){
+//     //   // When S3 suction-A is high, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_RUN_MIN))){
+//     //     // When S3 suction-A is in range RUN (No longer need to IDLE) S3
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT462);
+//     // }
+
+//     // //Stage control for TC12-TT474
+//     // if ((get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT474);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_IDLE_MIN)){
+//     //   // When S3 suction-B is low, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_IDLE_MAX)){
+//     //   // When S3 suction-B is high, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_RUN_MIN))){
+//     //     // When S3 suction-B is in range RUN (No longer need to IDLE) S3
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT474);
+//     // }
+
+//     // //Stage control for TC13-TT465
+//     // if ((get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT465);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_IDLE_MIN)){
+//     //   // When S3 discharge-A is low, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_IDLE_MAX)){
+//     //   // When S3 discharge-A is high, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_RUN_MIN))){
+//     //     // When S3 discharge-A is in range RUN (No longer need to IDLE) S3
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT465);
+//     // }
+
+//     // //Stage control for TC14-TT471
+//     // if ((get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_STOP_MIN)) 
+//     //           || (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_STOP_MAX))){          
+//     //   // This error will remain here until the red button is presssed by the operator to clear it
+//     //   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT471);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_IDLE_MIN)){
+//     //   // When S3 discharge-B is low, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
+//     // }else if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_IDLE_MAX)){
+//     //   // When S3 discharge-B is low, IDLE S3
+//     //   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
+//     // }else if ((get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_RUN_MAX)) 
+//     //           && (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_RUN_MIN))){
+//     //     // When S3 discharge-B is in range RUN (No longer need to IDLE) S3
+//     //     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT471);
+//     // }
+
+//     // Stage control for TC3 - TT432 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX)) {
+//   // This error will remain here until the red button is presssed by the operator to clear it
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT432);
+// } else if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_IDLE_MAX)) {
+//   // High side ONLY → IDLE S1
+//   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
+// } else {
+//   // Release IDLE only if back below RUN_MAX
+//   if (get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT432);
+//   }
+// }
+
+// // Stage control for TC4 - TT439 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT439);
+// } else if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT439);
+//   }
+// }
+
+// // Stage control for TC5 - TT435 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT435);
+// } else if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT435);
+//   }
+// }
+
+// // Stage control for TC6 - TT436 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT436);
+// } else if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT436);
+//   }
+// }
+
+// // Stage control for TC7 - TT447 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT447);
+// } else if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT447);
+//   }
+// }
+
+// // Stage control for TC8 - TT454 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT454);
+// } else if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT454);
+//   }
+// }
+
+// // Stage control for TC9 - TT450 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT450);
+// } else if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT450);
+//   }
+// }
+
+// // Stage control for TC10 - TT451 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT451);
+// } else if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT451);
+//   }
+// }
+
+// // Stage control for TC11 - TT462 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT462);
+// } else if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT462);
+//   }
+// }
+
+// // Stage control for TC12 - TT474 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT474);
+// } else if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT474);
+//   }
+// }
+
+// // Stage control for TC13 - TT465 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT465);
+// } else if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT465);
+//   }
+// }
+
+// // Stage control for TC14 - TT471 (max-only)
+// if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_STOP_MAX)) {
+//   set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT471);
+// } else if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_IDLE_MAX)) {
+//   set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
+// } else {
+//   if (get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_RUN_MAX)) {
+//     set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT471);
+//   }
+// }
+
+
+//     //Stage control for TC1-TT532
+//     if ((get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT532);
+//     }else if (get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_IDLE_MIN)){
+//       // When Coolant-1 is low, IDLE S1, S2 & S3
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT532);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT532);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT532);
+//     }else if (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_IDLE_MAX)){
+//       // When Coolant-1 is high, IDLE S1, S2 & S3
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT532);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT532);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT532);
+//     }else if ((get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_RUN_MIN))){
+//         // When Coolant-1 is in range RUN (No longer need to IDLE) S1, S2 & S3
+//         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT532);
+//         set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT532);
+//         set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT532);
+//     }
+
+//     //Stage control for TC2-TT557
+//     if ((get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_STOP_MIN)) 
+//               || (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_STOP_MAX))){          
+//       // This error will remain here until the red button is presssed by the operator to clear it
+//       set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT557);
+//     }else if (get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_IDLE_MIN)){
+//       // When Coolant-2 is low, IDLE S1, S2 & S3
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT557);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT557);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT557);
+//     }else if (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_IDLE_MAX)){
+//       // When Coolant-2 is high, IDLE S1, S2 & S3
+//       set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT557);
+//       set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT557);
+//       set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT557);
+//     }else if ((get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_RUN_MAX)) 
+//               && (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_RUN_MIN))){
+//         // When Coolant-1 is in range RUN (No longer need to IDLE) S1, S2 & S3
+//         set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT557);
+//         set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT557);
+//         set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT557);
+//     }
+
+// }
+
+void parameter_check(){
+
+  // ===== PT405 – Suction PT =====
+  if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_STOP_MIN)) 
+   || (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_STOP_MAX))) {
+    set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT405);
+    Serial.print("[PT405] ERROR set: SUCTION_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_PT),2);
+    Serial.print(" out of [STOP_MIN="); Serial.print(get_config_parameter(CONFIG_PARAM_PT405_STOP_MIN),2);
+    Serial.print(", STOP_MAX="); Serial.print(get_config_parameter(CONFIG_PARAM_PT405_STOP_MAX),2); Serial.println("]");
+  } else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_IDLE_MIN)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
+    Serial.print("[PT405] S1 IDLE set: SUCTION_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_PT),2);
+    Serial.print(" < IDLE_MIN="); Serial.println(get_config_parameter(CONFIG_PARAM_PT405_IDLE_MIN),2);
+  } else if (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT405);
+    Serial.print("[PT405] S1 IDLE set: SUCTION_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_PT),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_PT405_IDLE_MAX),2);
+  } else if ((get_config_parameter(CONFIG_PARAM_SUCTION_PT) < get_config_parameter(CONFIG_PARAM_PT405_RUN_MAX)) 
+          && (get_config_parameter(CONFIG_PARAM_SUCTION_PT) > get_config_parameter(CONFIG_PARAM_PT405_RUN_MIN))) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT405);
+    Serial.print("[PT405] S1 IDLE cleared: SUCTION_PT in RUN band (");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT405_RUN_MIN),2); Serial.print("..");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT405_RUN_MAX),2); Serial.println(")");
+  }
+
+  // ===== PT426 – Suction TANK PT =====
+  if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_STOP_MIN)) 
+   || (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_STOP_MAX))) {
+    set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT426);
+    Serial.print("[PT426] ERROR set: SUCTION_TANK="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_TANK),2);
+    Serial.print(" out of [STOP_MIN="); Serial.print(get_config_parameter(CONFIG_PARAM_PT426_STOP_MIN),2);
+    Serial.print(", STOP_MAX="); Serial.print(get_config_parameter(CONFIG_PARAM_PT426_STOP_MAX),2); Serial.println("]");
+  } else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_IDLE_MIN)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
+    Serial.print("[PT426] S1 IDLE set: SUCTION_TANK="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_TANK),2);
+    Serial.print(" < IDLE_MIN="); Serial.println(get_config_parameter(CONFIG_PARAM_PT426_IDLE_MIN),2);
+  } else if (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT426);
+    Serial.print("[PT426] S1 IDLE set: SUCTION_TANK="); Serial.print(get_config_parameter(CONFIG_PARAM_SUCTION_TANK),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_PT426_IDLE_MAX),2);
+  } else if ((get_config_parameter(CONFIG_PARAM_SUCTION_TANK) < get_config_parameter(CONFIG_PARAM_PT426_RUN_MAX)) 
+          && (get_config_parameter(CONFIG_PARAM_SUCTION_TANK) > get_config_parameter(CONFIG_PARAM_PT426_RUN_MIN))) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT426);
+    Serial.print("[PT426] S1 IDLE cleared: SUCTION_TANK in RUN band (");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT426_RUN_MIN),2); Serial.print("..");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT426_RUN_MAX),2); Serial.println(")");
+  }
+
+  // ===== PT496 – HFL Pump PT (idles ALL stages) =====
+  if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_STOP_MIN)) 
+   || (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_STOP_MAX))) {
+    set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT496);
+    Serial.print("[PT496] ERROR set: HFL_PUMP1="); Serial.print(get_config_parameter(CONFIG_PARAM_HFL_PUMP1),2);
+    Serial.print(" out of [STOP_MIN="); Serial.print(get_config_parameter(CONFIG_PARAM_PT496_STOP_MIN),2);
+    Serial.print(", STOP_MAX="); Serial.print(get_config_parameter(CONFIG_PARAM_PT496_STOP_MAX),2); Serial.println("]");
+  } else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_IDLE_MIN)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
+    Serial.print("[PT496] S1,S2,S3 IDLE set: HFL_PUMP1="); Serial.print(get_config_parameter(CONFIG_PARAM_HFL_PUMP1),2);
+    Serial.print(" < IDLE_MIN="); Serial.println(get_config_parameter(CONFIG_PARAM_PT496_IDLE_MIN),2);
+  } else if (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT496);
+    Serial.print("[PT496] S1,S2,S3 IDLE set: HFL_PUMP1="); Serial.print(get_config_parameter(CONFIG_PARAM_HFL_PUMP1),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_PT496_IDLE_MAX),2);
+  } else if ((get_config_parameter(CONFIG_PARAM_HFL_PUMP1) < get_config_parameter(CONFIG_PARAM_PT496_RUN_MAX)) 
+          && (get_config_parameter(CONFIG_PARAM_HFL_PUMP1) > get_config_parameter(CONFIG_PARAM_PT496_RUN_MIN))) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT496);
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT496);
+    Serial.print("[PT496] S1,S2,S3 IDLE cleared: HFL_PUMP1 in RUN band (");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT496_RUN_MIN),2); Serial.print("..");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT496_RUN_MAX),2); Serial.println(")");
+  }
+
+  // ===== PT531 – Coolant1 PT (idles ALL stages) =====
+  if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_STOP_MIN)) 
+   || (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_STOP_MAX))) {
+    set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT531);
+    Serial.print("[PT531] ERROR set: COOLANT1_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT1_PT),2);
+    Serial.print(" out of [STOP_MIN="); Serial.print(get_config_parameter(CONFIG_PARAM_PT531_STOP_MIN),2);
+    Serial.print(", STOP_MAX="); Serial.print(get_config_parameter(CONFIG_PARAM_PT531_STOP_MAX),2); Serial.println("]");
+  } else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_IDLE_MIN)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
+    Serial.print("[PT531] S1,S2,S3 IDLE set: COOLANT1_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT1_PT),2);
+    Serial.print(" < IDLE_MIN="); Serial.println(get_config_parameter(CONFIG_PARAM_PT531_IDLE_MIN),2);
+  } else if (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT531);
+    Serial.print("[PT531] S1,S2,S3 IDLE set: COOLANT1_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT1_PT),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_PT531_IDLE_MAX),2);
+  } else if ((get_config_parameter(CONFIG_PARAM_COOLANT1_PT) < get_config_parameter(CONFIG_PARAM_PT531_RUN_MAX)) 
+          && (get_config_parameter(CONFIG_PARAM_COOLANT1_PT) > get_config_parameter(CONFIG_PARAM_PT531_RUN_MIN))) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT531);
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT531);
+    Serial.print("[PT531] S1,S2,S3 IDLE cleared: COOLANT1_PT in RUN band (");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT531_RUN_MIN),2); Serial.print("..");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT531_RUN_MAX),2); Serial.println(")");
+  }
+
+  // ===== PT576 – Coolant2 PT (idles ALL stages) =====
+  if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_STOP_MIN)) 
+   || (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_STOP_MAX))) {
+    set_config_bit(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT576);
+    Serial.print("[PT576] ERROR set: COOLANT2_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT2_PT),2);
+    Serial.print(" out of [STOP_MIN="); Serial.print(get_config_parameter(CONFIG_PARAM_PT576_STOP_MIN),2);
+    Serial.print(", STOP_MAX="); Serial.print(get_config_parameter(CONFIG_PARAM_PT576_STOP_MAX),2); Serial.println("]");
+  } else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_IDLE_MIN)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
+    Serial.print("[PT576] S1,S2,S3 IDLE set: COOLANT2_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT2_PT),2);
+    Serial.print(" < IDLE_MIN="); Serial.println(get_config_parameter(CONFIG_PARAM_PT576_IDLE_MIN),2);
+  } else if (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT576);
+    Serial.print("[PT576] S1,S2,S3 IDLE set: COOLANT2_PT="); Serial.print(get_config_parameter(CONFIG_PARAM_COOLANT2_PT),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_PT576_IDLE_MAX),2);
+  } else if ((get_config_parameter(CONFIG_PARAM_COOLANT2_PT) < get_config_parameter(CONFIG_PARAM_PT576_RUN_MAX)) 
+          && (get_config_parameter(CONFIG_PARAM_COOLANT2_PT) > get_config_parameter(CONFIG_PARAM_PT576_RUN_MIN))) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT576);
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT576);
+    Serial.print("[PT576] S1,S2,S3 IDLE cleared: COOLANT2_PT in RUN band (");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT576_RUN_MIN),2); Serial.print("..");
+    Serial.print(get_config_parameter(CONFIG_PARAM_PT576_RUN_MAX),2); Serial.println(")");
+  }
+
+  // ===== Ratio gates (PT442 / PT457 / PT487) =====
+  const float pt426 = (float)get_config_parameter(CONFIG_PARAM_SUCTION_TANK);   // PT426
+  const float pt442 = (float)get_config_parameter(CONFIG_PARAM_STAGE1_TANK);    // PT442
+  const float pt457 = (float)get_config_parameter(CONFIG_PARAM_STAGE2_TANK);    // PT457
+  const float pt487 = (float)get_config_parameter(CONFIG_PARAM_STAGE3_PT);      // PT487
+
+  const float R_MIN  = 2.75f;
+  const float R_MAX  = 3.25f;
+  const float HYST_L = 1.05f;  // +5% to clear low-side idle
+  const float HYST_H = 0.95f;  // -5% to clear high-side idle
+
+  // --- PT426 → PT442 ---
+  {
+    const float pt442_low  = pt426 * R_MIN;
+    const float pt442_high = pt426 * R_MAX;
+    set_config_parameter(CONFIG_PARAM_PT442_RATIO_LOW_PSI,  pt442_low);
+    set_config_parameter(CONFIG_PARAM_PT442_RATIO_HIGH_PSI, pt442_high);
+
     if (pt442 < pt442_low) {
-     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT442);
-    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT442) && (pt442 >= (pt442_low * 1.05f))) {
-     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);  // "start compressing" once in band
+      set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT442);
+      Serial.print("[PT442] S2 IDLE set (ratio low): pt442="); Serial.print(pt442,2);
+      Serial.print(" < low="); Serial.println(pt442_low,2);
+    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT442) && (pt442 >= (pt442_low * HYST_L))) {
+      set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT442);
+      Serial.print("[PT442] S2 IDLE cleared (ratio recovered): pt442="); Serial.print(pt442,2);
+      Serial.print(" >= low*1.05="); Serial.println(pt442_low * HYST_L,2);
     }
 
-   // S1 high-side protection (clear when back inside band with -5%)
     if (pt442 > pt442_high) {
       set_config_parameter(IDLE_STATE_S1_ALL, TRUE,  IDLE_STATE_PT442);
-    } else if (test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT442) && (pt442 <= (pt442_high * 0.95f))) {
-     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+      Serial.print("[PT442] S1 IDLE set (ratio high): pt442="); Serial.print(pt442,2);
+      Serial.print(" > high="); Serial.println(pt442_high,2);
+    } else if (test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT442) && (pt442 <= (pt442_high * HYST_H))) {
+      set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+      Serial.print("[PT442] S1 IDLE cleared (ratio relaxed): pt442="); Serial.print(pt442,2);
+      Serial.print(" <= high*0.95="); Serial.println(pt442_high * HYST_H,2);
+    }
+  }
+
+  // Site-specific MAX protections for PT442 (with guard to avoid collision)
+  //Site-specific MAX protections for PT442 (unchanged)
+  if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){
+    set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
+    Serial.println("ERROR PRESS - PT442");
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
+    set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)){
+    set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+  }
+
+  // --- PT442 → PT457 ---
+  {
+    const float pt457_low  = pt442 * R_MIN;
+    const float pt457_high = pt442 * R_MAX;
+    set_config_parameter(CONFIG_PARAM_PT457_RATIO_LOW_PSI,  pt457_low);
+    set_config_parameter(CONFIG_PARAM_PT457_RATIO_HIGH_PSI, pt457_high);
+
+    if (pt457 < pt457_low) {
+      set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT457);
+      Serial.print("[PT457] S3 IDLE set (ratio low): pt457="); Serial.print(pt457,2);
+      Serial.print(" < low="); Serial.println(pt457_low,2);
+    } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT457) && (pt457 >= (pt457_low * HYST_L))) {
+      set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT457);
+      Serial.print("[PT457] S3 IDLE cleared (ratio recovered): pt457="); Serial.print(pt457,2);
+      Serial.print(" >= low*1.05="); Serial.println(pt457_low * HYST_L,2);
     }
 
-    //3b)
-    if ((get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_STOP_MAX))){
-      set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT442);
-      Serial.println("ERROR PRESS - PT442");
-    } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) > get_config_parameter(CONFIG_PARAM_PT442_IDLE_MAX)){
-     set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT442);
-    } else if (get_config_parameter(CONFIG_PARAM_STAGE1_TANK) < get_config_parameter(CONFIG_PARAM_PT442_RUN_MAX)){
-     set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT442);
+    if (pt457 > pt457_high) {
+      set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT457);
+      Serial.print("[PT457] S2 IDLE set (ratio high): pt457="); Serial.print(pt457,2);
+      Serial.print(" > high="); Serial.println(pt457_high,2);
+    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT457) && (pt457 <= (pt457_high * HYST_H))) {
+      set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+      Serial.print("[PT457] S2 IDLE cleared (ratio relaxed): pt457="); Serial.print(pt457,2);
+      Serial.print(" <= high*0.95="); Serial.println(pt457_high * HYST_H,2);
+    }
+  }
+
+  // Site-specific MAX protections for PT457 (no special guard needed normally)
+  if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX)){
+    set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
+    Serial.println("[PT457] ERROR set: STAGE2_TANK > STOP_MAX");
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
+    set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
+    Serial.println("[PT457] S2 IDLE set (site): STAGE2_TANK > IDLE_MAX");
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX)){
+    set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
+    Serial.println("[PT457] S2 IDLE cleared (site): STAGE2_TANK < RUN_MAX");
+  }
+
+  // --- PT457 → PT487 ---
+  {
+    const float pt487_low  = pt457 * R_MIN;
+    const float pt487_high = pt457 * R_MAX;
+    set_config_parameter(CONFIG_PARAM_PT487_RATIO_LOW_PSI,  pt487_low);
+    set_config_parameter(CONFIG_PARAM_PT487_RATIO_HIGH_PSI, pt487_high);
+
+    if (pt487 < pt487_low) {
+      set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
+      Serial.print("[PT487] S3 IDLE set (ratio low): pt487="); Serial.print(pt487,2);
+      Serial.print(" < low="); Serial.println(pt487_low,2);
+    } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487) && (pt487 >= (pt487_low * HYST_L))) {
+      set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+      Serial.print("[PT487] S3 IDLE cleared (ratio recovered): pt487="); Serial.print(pt487,2);
+      Serial.print(" >= low*1.05="); Serial.println(pt487_low * HYST_L,2);
     }
 
-
-    // -----------------------------
-    // 4) PT457 vs PT442 (INTERSTAGE ratio)
-    //     nominal 1:2.5; if it reaches 1:3 → idle Stage 2
-    //     Hysteresis: clear at 2.9
-    // -----------------------------
-    const float pt457_idle_trip  = pt442 * r_457_idle;          // 3.0 × PT442
-    const float pt457_idle_clear = pt442 * (r_457_idle - 0.1f); // 2.9 × PT442
-
-    // Compute & publish PT457 target (2.5 × PT442) for HMI
-    const float pt457_target = pt442 * r_457_tgt;
-    set_config_parameter(CONFIG_PARAM_PT457_TARGET_PSI, pt457_target);
-
-    if (pt457 >= pt457_idle_trip) {
-     set_config_parameter(IDLE_STATE_S2_ALL, TRUE,  IDLE_STATE_PT457);
-    } else if (test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT457) && (pt457 <= pt457_idle_clear)) {
-     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-    }
-
-    // Existing site-specific MAX protections (no mins required) still apply as you configured:
-    if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_STOP_MAX))){
-     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT457);
-     Serial.println("ERROR PRESS - PT457");
-    } else if (get_config_parameter(CONFIG_PARAM_STAGE2_TANK) > get_config_parameter(CONFIG_PARAM_PT457_IDLE_MAX)){
-     set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT457);
-    } else if ((get_config_parameter(CONFIG_PARAM_STAGE2_TANK) < get_config_parameter(CONFIG_PARAM_PT457_RUN_MAX))){
-     set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT457);
-    }
-
-    // -----------------------------
-    // 5) PT468 – HIGH LIMITS ONLY (extra ESTOP)
-    // -----------------------------
-    if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_STOP_MAX))){
-     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT468);
-     Serial.println("ERROR PRESS - PT468");
-    } else if (get_config_parameter(CONFIG_PARAM_STAGE3_TANK) > get_config_parameter(CONFIG_PARAM_PT468_IDLE_MAX)){
-     set_config_parameter(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT468);
-    } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_TANK) < get_config_parameter(CONFIG_PARAM_PT468_RUN_MAX))){
-     set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT468);
-    }
-
-
-  
-    // -----------------------------
-    // 6) PT487 vs PT457 (TANK ratio)
-    //     nominal 1:3.5; if it reaches 1:4 → idle S2
-    //     Hysteresis: clear at 3.9
-    //     NOTE: Skip ratio idling for first 60s after S2 start (when PT487 > target).
-    // -----------------------------
-    const float pt487_idle_trip  = pt457 * r_487_idle;           // 4.0 × PT457
-    const float pt487_idle_clear = pt457 * (r_487_idle - 0.1f);  // 3.9 × PT457
-    const float pt487_target     = pt457 * r_487_tgt;            // 3.5 × PT457
-    set_config_parameter(CONFIG_PARAM_PT487_TARGET_PSI, pt487_target); // HMI visibility
-
-     // ---- Normal ratio hysteresis ----
-      if (pt487 >= pt487_idle_trip) {
-       set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
-      } else if (test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487) && (pt487 <= pt487_idle_clear)) {
-       set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+    if (pt487 >= pt487_high) {
+      set_config_parameter(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_PT487);
+      set_config_parameter(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_PT487);
+      set_config_parameter(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_PT487);
+      Serial.print("[PT487] S1,S2,S3 IDLE set (ratio high): pt487="); Serial.print(pt487,2);
+      Serial.print(" >= high="); Serial.println(pt487_high,2);
+    } else {
+      const bool s1_hi = test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT487);
+      const bool s2_hi = test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT487);
+      const bool s3_hi = test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487);
+      if ((s1_hi || s2_hi || s3_hi) && (pt487 <= (pt487_high * HYST_H))) {
+        set_config_parameter(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_PT487);
+        set_config_parameter(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_PT487);
+        set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+        Serial.print("[PT487] S1,S2,S3 IDLE cleared (ratio relaxed): pt487="); Serial.print(pt487,2);
+        Serial.print(" <= high*0.95="); Serial.println(pt487_high * HYST_H,2);
       }
-
-    // Site-specific MAX protections for PT487 remain as-is (ALWAYS ACTIVE):
-    if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX))){
-     set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
-     Serial.println("ERROR PRESS - PT487");
-    } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
-     set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
-    } else if ((get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX))){
-     set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
     }
+  }
 
+  // Site-specific MAX protections for PT487
+  if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_STOP_MAX)){
+    set_config_parameter(ERROR_PARAM_ALL, ERROR_ACTIVE, ERROR_PT487);
+    Serial.println("[PT487] ERROR set: STAGE3_PT > STOP_MAX");
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) > get_config_parameter(CONFIG_PARAM_PT487_IDLE_MAX)){
+    set_config_parameter(IDLE_STATE_S3_ALL, TRUE,  IDLE_STATE_PT487);
+    Serial.println("[PT487] S3 IDLE set (site): STAGE3_PT > IDLE_MAX");
+  } else if (get_config_parameter(CONFIG_PARAM_STAGE3_PT) < get_config_parameter(CONFIG_PARAM_PT487_RUN_MAX)){
+    set_config_parameter(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_PT487);
+    Serial.println("[PT487] S3 IDLE cleared (site): STAGE3_PT < RUN_MAX");
+  }
 
+  // ===== TC/TT max-only sections (all with prints) =====
+  // TC3 – TT432
+  if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT432);
+    Serial.print("[TT432] ERROR set: TC3="); Serial.print(get_config_parameter(CONFIG_PARAM_TC3),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
+    Serial.print("[TT432] S1 IDLE set: TC3="); Serial.print(get_config_parameter(CONFIG_PARAM_TC3),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT432_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT432);
+    Serial.print("[TT432] S1 IDLE cleared: TC3 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT432_RUN_MAX),2);
+  }
 
-    //Stage control for TC3-TT432
-    if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT432);
-    }else if (get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_IDLE_MIN)){
-      // When S1 suction-A is low, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
-    }else if (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_IDLE_MAX)){
-      // When S1 suction-A is high, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT432);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC3) < get_config_parameter(CONFIG_PARAM_TT432_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC3) > get_config_parameter(CONFIG_PARAM_TT432_RUN_MIN))){
-        // When S1 suction-A is in range no longer need to IDLE S1                
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT432);
-    }
+  // TC4 – TT439
+  if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT439);
+    Serial.print("[TT439] ERROR set: TC4="); Serial.print(get_config_parameter(CONFIG_PARAM_TC4),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT439_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
+    Serial.print("[TT439] S1 IDLE set: TC4="); Serial.print(get_config_parameter(CONFIG_PARAM_TC4),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT439_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT439);
+    Serial.print("[TT439] S1 IDLE cleared: TC4 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT439_RUN_MAX),2);
+  }
 
-       //Stage control for TC4-TT439
-    if ((get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT439);
-    }else if (get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_IDLE_MIN)){
-      // When S1 suction-B is low, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
-    }else if (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_IDLE_MAX)){
-      // When S1 suction-B is low, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT439);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC4) < get_config_parameter(CONFIG_PARAM_TT439_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC4) > get_config_parameter(CONFIG_PARAM_TT439_RUN_MIN))){
-        // When S1 suction-B is in range no longer need to IDLE S1       
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT439);
-    }
+  // TC5 – TT435
+  if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT435);
+    Serial.print("[TT435] ERROR set: TC5="); Serial.print(get_config_parameter(CONFIG_PARAM_TC5),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT435_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
+    Serial.print("[TT435] S1 IDLE set: TC5="); Serial.print(get_config_parameter(CONFIG_PARAM_TC5),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT435_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT435);
+    Serial.print("[TT435] S1 IDLE cleared: TC5 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT435_RUN_MAX),2);
+  }
 
-    //Stage control for TC5-TT435
-    if ((get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT435);
-    }else if (get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_IDLE_MIN)){
-      // When S1 discharge-A is low, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
-    }else if (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_IDLE_MAX)){
-      // When S1 discharge-A is high, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT435);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC5) < get_config_parameter(CONFIG_PARAM_TT435_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC5) > get_config_parameter(CONFIG_PARAM_TT435_RUN_MIN))){
-        // When S1 discharge-A is in range RUN (No longer need to IDLE) S1
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT435);
-    }
+  // TC6 – TT436
+  if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT436);
+    Serial.print("[TT436] ERROR set: TC6="); Serial.print(get_config_parameter(CONFIG_PARAM_TC6),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT436_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
+    Serial.print("[TT436] S1 IDLE set: TC6="); Serial.print(get_config_parameter(CONFIG_PARAM_TC6),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT436_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT436);
+    Serial.print("[TT436] S1 IDLE cleared: TC6 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT436_RUN_MAX),2);
+  }
 
-    //Stage control for TC6-TT436
-    if ((get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT436);
-    }else if (get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_IDLE_MIN)){
-      // When S1 discharge-B is low, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
-    }else if (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_IDLE_MAX)){
-      // When S1 discharge-B is high, IDLE S1
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT436);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC6) < get_config_parameter(CONFIG_PARAM_TT436_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC6) > get_config_parameter(CONFIG_PARAM_TT436_RUN_MIN))){
-        // When S1 discharge-B is in range RUN (No longer need to IDLE) S1
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT436);
-    }
+  // TC7 – TT447
+  if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT447);
+    Serial.print("[TT447] ERROR set: TC7="); Serial.print(get_config_parameter(CONFIG_PARAM_TC7),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT447_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
+    Serial.print("[TT447] S2 IDLE set: TC7="); Serial.print(get_config_parameter(CONFIG_PARAM_TC7),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT447_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT447);
+    Serial.print("[TT447] S2 IDLE cleared: TC7 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT447_RUN_MAX),2);
+  }
 
-    //Stage control for TC7-TT447
-    if ((get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT447);
-    }else if (get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_IDLE_MIN)){
-      // When S2 suction-A is low, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
-    }else if (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_IDLE_MAX)){
-      // When S2 suction-A is high, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT447);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC7) < get_config_parameter(CONFIG_PARAM_TT447_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC7) > get_config_parameter(CONFIG_PARAM_TT447_RUN_MIN))){
-        // When S2 suction-A is in range RUN (No longer need to IDLE) S2
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT447);
-    }
+  // TC8 – TT454
+  if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT454);
+    Serial.print("[TT454] ERROR set: TC8="); Serial.print(get_config_parameter(CONFIG_PARAM_TC8),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT454_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
+    Serial.print("[TT454] S2 IDLE set: TC8="); Serial.print(get_config_parameter(CONFIG_PARAM_TC8),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT454_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT454);
+    Serial.print("[TT454] S2 IDLE cleared: TC8 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT454_RUN_MAX),2);
+  }
 
-    //Stage control for TC8-TT454
-    if ((get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT454);
-    }else if (get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_IDLE_MIN)){
-      // When S2 suction-B is low, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
-    }else if (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_IDLE_MAX)){
-      // When S2 suction-B is high, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT454);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC8) < get_config_parameter(CONFIG_PARAM_TT454_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC8) > get_config_parameter(CONFIG_PARAM_TT454_RUN_MIN))){
-        // When S2 suction-B is in range RUN (No longer need to IDLE) S2
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT454);
-    }
+  // TC9 – TT450
+  if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT450);
+    Serial.print("[TT450] ERROR set: TC9="); Serial.print(get_config_parameter(CONFIG_PARAM_TC9),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT450_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
+    Serial.print("[TT450] S2 IDLE set: TC9="); Serial.print(get_config_parameter(CONFIG_PARAM_TC9),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT450_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT450);
+    Serial.print("[TT450] S2 IDLE cleared: TC9 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT450_RUN_MAX),2);
+  }
 
-    //Stage control for TC9-TT450
-    if ((get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT450);
-    }else if (get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_IDLE_MIN)){
-      // When S2 discharge-A is low, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
-    }else if (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_IDLE_MAX)){
-      // When S2 discharge-A is high, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT450);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC9) < get_config_parameter(CONFIG_PARAM_TT450_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC9) > get_config_parameter(CONFIG_PARAM_TT450_RUN_MIN))){
-        // When S2 discharge-A is in range RUN (No longer need to IDLE) S2
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT450);
-    }
+  // TC10 – TT451
+  if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT451);
+    Serial.print("[TT451] ERROR set: TC10="); Serial.print(get_config_parameter(CONFIG_PARAM_TC10),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT451_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
+    Serial.print("[TT451] S2 IDLE set: TC10="); Serial.print(get_config_parameter(CONFIG_PARAM_TC10),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT451_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT451);
+    Serial.print("[TT451] S2 IDLE cleared: TC10 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT451_RUN_MAX),2);
+  }
 
-    //Stage control for TC10-TT451
-    if ((get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT451);
-    }else if (get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_IDLE_MIN)){
-      // When S2 discharge-B is low, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
-    }else if (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_IDLE_MAX)){
-      // When S2 discharge-B is high, IDLE S2
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT451);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC10) < get_config_parameter(CONFIG_PARAM_TT451_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC10) > get_config_parameter(CONFIG_PARAM_TT451_RUN_MIN))){
-        // When S2 discharge-B is in range RUN (No longer need to IDLE) S2
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT451);
-    }
+  // TC11 – TT462
+  if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT462);
+    Serial.print("[TT462] ERROR set: TC11="); Serial.print(get_config_parameter(CONFIG_PARAM_TC11),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT462_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
+    Serial.print("[TT462] S3 IDLE set: TC11="); Serial.print(get_config_parameter(CONFIG_PARAM_TC11),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT462_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT462);
+    Serial.print("[TT462] S3 IDLE cleared: TC11 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT462_RUN_MAX),2);
+  }
 
-    //Stage control for TC11-TT462
-    if ((get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT462);
-    }else if (get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_IDLE_MIN)){
-      // When S3 suction-A is low, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
-    }else if (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_IDLE_MAX)){
-      // When S3 suction-A is high, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT462);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC11) < get_config_parameter(CONFIG_PARAM_TT462_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC11) > get_config_parameter(CONFIG_PARAM_TT462_RUN_MIN))){
-        // When S3 suction-A is in range RUN (No longer need to IDLE) S3
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT462);
-    }
+  // TC12 – TT474
+  if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT474);
+    Serial.print("[TT474] ERROR set: TC12="); Serial.print(get_config_parameter(CONFIG_PARAM_TC12),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT474_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
+    Serial.print("[TT474] S3 IDLE set: TC12="); Serial.print(get_config_parameter(CONFIG_PARAM_TC12),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT474_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT474);
+    Serial.print("[TT474] S3 IDLE cleared: TC12 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT474_RUN_MAX),2);
+  }
 
-    //Stage control for TC12-TT474
-    if ((get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT474);
-    }else if (get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_IDLE_MIN)){
-      // When S3 suction-B is low, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
-    }else if (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_IDLE_MAX)){
-      // When S3 suction-B is high, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT474);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC12) < get_config_parameter(CONFIG_PARAM_TT474_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC12) > get_config_parameter(CONFIG_PARAM_TT474_RUN_MIN))){
-        // When S3 suction-B is in range RUN (No longer need to IDLE) S3
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT474);
-    }
+  // TC13 – TT465
+  if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT465);
+    Serial.print("[TT465] ERROR set: TC13="); Serial.print(get_config_parameter(CONFIG_PARAM_TC13),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT465_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
+    Serial.print("[TT465] S3 IDLE set: TC13="); Serial.print(get_config_parameter(CONFIG_PARAM_TC13),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT465_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT465);
+    Serial.print("[TT465] S3 IDLE cleared: TC13 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT465_RUN_MAX),2);
+  }
 
-    //Stage control for TC13-TT465
-    if ((get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT465);
-    }else if (get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_IDLE_MIN)){
-      // When S3 discharge-A is low, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
-    }else if (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_IDLE_MAX)){
-      // When S3 discharge-A is high, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT465);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC13) < get_config_parameter(CONFIG_PARAM_TT465_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC13) > get_config_parameter(CONFIG_PARAM_TT465_RUN_MIN))){
-        // When S3 discharge-A is in range RUN (No longer need to IDLE) S3
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT465);
-    }
+  // TC14 – TT471
+  if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_STOP_MAX)) {
+    set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT471);
+    Serial.print("[TT471] ERROR set: TC14="); Serial.print(get_config_parameter(CONFIG_PARAM_TC14),2);
+    Serial.print(" > STOP_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT471_STOP_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_IDLE_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
+    Serial.print("[TT471] S3 IDLE set: TC14="); Serial.print(get_config_parameter(CONFIG_PARAM_TC14),2);
+    Serial.print(" > IDLE_MAX="); Serial.println(get_config_parameter(CONFIG_PARAM_TT471_IDLE_MAX),2);
+  } else if (get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_RUN_MAX)) {
+    set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT471);
+    Serial.print("[TT471] S3 IDLE cleared: TC14 < RUN_MAX=");
+    Serial.println(get_config_parameter(CONFIG_PARAM_TT471_RUN_MAX),2);
+  }
 
-    //Stage control for TC14-TT471
-    if ((get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT471);
-    }else if (get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_IDLE_MIN)){
-      // When S3 discharge-B is low, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
-    }else if (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_IDLE_MAX)){
-      // When S3 discharge-B is low, IDLE S3
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT471);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC14) < get_config_parameter(CONFIG_PARAM_TT471_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC14) > get_config_parameter(CONFIG_PARAM_TT471_RUN_MIN))){
-        // When S3 discharge-B is in range RUN (No longer need to IDLE) S3
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT471);
-    }
-
-    //Stage control for TC1-TT532
-    if ((get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT532);
-    }else if (get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_IDLE_MIN)){
-      // When Coolant-1 is low, IDLE S1, S2 & S3
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT532);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT532);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT532);
-    }else if (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_IDLE_MAX)){
-      // When Coolant-1 is high, IDLE S1, S2 & S3
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT532);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT532);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT532);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC1) < get_config_parameter(CONFIG_PARAM_TT532_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC1) > get_config_parameter(CONFIG_PARAM_TT532_RUN_MIN))){
-        // When Coolant-1 is in range RUN (No longer need to IDLE) S1, S2 & S3
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT532);
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT532);
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT532);
-    }
-
-    //Stage control for TC2-TT557
-    if ((get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_STOP_MIN)) 
-              || (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_STOP_MAX))){          
-      // This error will remain here until the red button is presssed by the operator to clear it
-      set_config_bit(ERROR_PARAM2_ALL, ERROR_ACTIVE, ERROR_TT557);
-    }else if (get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_IDLE_MIN)){
-      // When Coolant-2 is low, IDLE S1, S2 & S3
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT557);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT557);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT557);
-    }else if (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_IDLE_MAX)){
-      // When Coolant-2 is high, IDLE S1, S2 & S3
-      set_config_bit(IDLE_STATE_S1_ALL, TRUE, IDLE_STATE_TT557);
-      set_config_bit(IDLE_STATE_S2_ALL, TRUE, IDLE_STATE_TT557);
-      set_config_bit(IDLE_STATE_S3_ALL, TRUE, IDLE_STATE_TT557);
-    }else if ((get_config_parameter(CONFIG_PARAM_TC2) < get_config_parameter(CONFIG_PARAM_TT557_RUN_MAX)) 
-              && (get_config_parameter(CONFIG_PARAM_TC2) > get_config_parameter(CONFIG_PARAM_TT557_RUN_MIN))){
-        // When Coolant-1 is in range RUN (No longer need to IDLE) S1, S2 & S3
-        set_config_bit(IDLE_STATE_S1_ALL, FALSE, IDLE_STATE_TT557);
-        set_config_bit(IDLE_STATE_S2_ALL, FALSE, IDLE_STATE_TT557);
-        set_config_bit(IDLE_STATE_S3_ALL, FALSE, IDLE_STATE_TT557);
-    }
-
+  // ---- Optional one-line status summary (enable if useful) ----
+  /*
+  Serial.print("[SUM] PT426="); Serial.print(pt426,1);
+  Serial.print(" PT442="); Serial.print(pt442,1);
+  Serial.print(" PT457="); Serial.print(pt457,1);
+  Serial.print(" PT487="); Serial.print(pt487,1);
+  Serial.print(" S1idle="); Serial.print(test_config_parameter(IDLE_STATE_S1_ALL, IDLE_STATE_PT442));
+  Serial.print(" S2idle="); Serial.print(test_config_parameter(IDLE_STATE_S2_ALL, IDLE_STATE_PT457));
+  Serial.print(" S3idle="); Serial.println(test_config_parameter(IDLE_STATE_S3_ALL, IDLE_STATE_PT487));
+  */
 }
+
 
 /*
     Name:         C300_stroking_current
